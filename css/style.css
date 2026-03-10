@@ -1,11 +1,11 @@
 body {
   background-color: #0f172a;
   color: #f8fafc;
-  font-family: sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -13,19 +13,33 @@ body {
   background-color: #1e293b;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 400px;
-  text-align: center;
+  max-width: 450px;
 }
 
 h1 {
   color: #38bdf8;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #334155;
+  margin: 1.5rem 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #94a3b8;
 }
 
 input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   margin-bottom: 1rem;
   border-radius: 6px;
   border: 1px solid #475569;
@@ -34,9 +48,18 @@ input {
   box-sizing: border-box;
 }
 
+/* Estilo para campos que não podem ser editados */
+input[readonly] {
+  background-color: #334155;
+  color: #cbd5e1;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
 .buttons {
   display: flex;
   gap: 10px;
+  margin-bottom: 1rem;
 }
 
 button {
@@ -55,16 +78,19 @@ button {
   background-color: #64748b;
   color: white;
 }
-
 button:hover {
-  opacity: 0.8;
+  filter: brightness(1.2);
 }
 
-#resultado {
-  display: none; /* Começa escondido */
-  margin-top: 1.5rem;
-  text-align: left;
-  padding: 1rem;
-  background-color: #334155;
-  border-radius: 6px;
+/* Estilo para quando o botão estiver ocupado */
+button:disabled {
+  background-color: #475569;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Um pequeno efeito de brilho/animação opcional no input */
+.loading-input {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
 }

@@ -1,50 +1,63 @@
-// 1. Seleção dos elementos
 const btnBuscar = document.querySelector("#btn-buscar");
 const btnLimpar = document.querySelector("#btn-limpar");
 const inputCep = document.querySelector("#cep");
-const resultadoDiv = document.querySelector("#resultado");
 
-// 2. Função para buscar o endereço
+// Campos do formulário
+const campoRua = document.querySelector("#rua");
+const campoBairro = document.querySelector("#bairro");
+const campoCidade = document.querySelector("#cidade");
+const campoUf = document.querySelector("#uf");
+
 async function buscarEndereco() {
   const cep = inputCep.value.replace(/\D/g, "");
 
   if (cep.length !== 8) {
-    alert("Digite um CEP válido com 8 números.");
+    alert("Por favor, digite um CEP válido.");
     return;
   }
 
   const url = `https://viacep.com.br/ws/${cep}/json/`;
 
+  // --- INÍCIO DO LOADING ---
+  btnBuscar.disabled = true;
+  btnBuscar.innerText = "Buscando...";
+  inputCep.classList.add("loading-input");
+  // -------------------------
+
   try {
     const resposta = await fetch(url);
     const dados = await resposta.json();
 
-    resultadoDiv.style.display = "block";
-
     if (dados.erro) {
-      resultadoDiv.innerHTML = `<p style="color: #f87171;">❌ CEP não encontrado.</p>`;
+      alert("CEP não encontrado!");
+      limparCampos();
     } else {
-      resultadoDiv.innerHTML = `
-                <p><strong>📍 Rua:</strong> ${dados.logradouro}</p>
-                <p><strong>🏘️ Bairro:</strong> ${dados.bairro}</p>
-                <p><strong>🏙️ Cidade:</strong> ${dados.localidade} - ${dados.uf}</p>
-            `;
+      campoRua.value = dados.logradouro;
+      campoBairro.value = dados.bairro;
+      campoCidade.value = dados.localidade;
+      campoUf.value = dados.uf;
     }
   } catch (error) {
-    resultadoDiv.style.display = "block";
-    resultadoDiv.innerHTML = `<p style="color: #f87171;">⚠️ Erro ao conectar no servidor.</p>`;
+    console.error("Erro:", error);
+    alert("Erro técnico ao consultar a API.");
+  } finally {
+    // --- FIM DO LOADING (Executa dando certo ou errado) ---
+    btnBuscar.disabled = false;
+    btnBuscar.innerText = "Buscar";
+    inputCep.classList.remove("loading-input");
+    // -------------------------------------------------------
   }
 }
 
-// 3. Função para LIMPAR os dados
 function limparCampos() {
-  inputCep.value = ""; // Limpa o texto digitado
-  resultadoDiv.innerHTML = ""; // Apaga o texto do resultado
-  resultadoDiv.style.display = "none"; // Esconde a div novamente
-  inputCep.focus(); // Coloca o cursor de volta no campo
+  inputCep.value = "";
+  campoRua.value = "";
+  campoBairro.value = "";
+  campoCidade.value = "";
+  campoUf.value = "";
+  inputCep.focus();
 }
 
-// 4. Eventos
 btnBuscar.addEventListener("click", buscarEndereco);
 btnLimpar.addEventListener("click", limparCampos);
 
