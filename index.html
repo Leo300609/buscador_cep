@@ -1,42 +1,48 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Buscador de CEP</title>
+    <title>Buscador de Endereço Pro</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
       <h1>Cadastro de Endereço</h1>
 
-      <div class="busca-setion">
+      <div class="search-box">
         <label for="cep">CEP:</label>
         <input type="text" id="cep" placeholder="00000-000" maxlength="9" />
         <div class="buttons">
-          <button id="btn-buscar">Buscar</button>
-          <button id="btn-limpar" class="btn-secondary">Limpar</button>
+          <button onclick="buscarCep()" class="btn-buscar">Buscar</button>
+          <button onclick="limparCampos()" class="btn-limpar">Limpar</button>
         </div>
       </div>
 
       <hr />
 
-      <div class="formulario">
-        <div class="campo">
+      <div class="results">
+        <div class="result-field">
           <label>Rua:</label>
-          <input type="text" id="rua" readonly placeholder="..." />
+          <input type="text" id="logradouro" readonly />
         </div>
-        <div class="campo">
+        <div class="result-field">
           <label>Bairro:</label>
-          <input type="text" id="bairro" readonly placeholder="..." />
+          <input type="text" id="bairro" readonly />
         </div>
-        <div class="campo">
-          <label>Cidade:</label>
-          <input type="text" id="cidade" readonly placeholder="..." />
-        </div>
-        <div class="campo">
-          <label>Estado (UF):</label>
-          <input type="text" id="uf" readonly placeholder="..." />
+        <div class="result-row">
+          <div class="result-field">
+            <label>Cidade:</label>
+            <input type="text" id="localidade" readonly />
+          </div>
+          <div class="result-field short">
+            <label>UF:</label>
+            <input type="text" id="uf" readonly />
+          </div>
         </div>
       </div>
     </div>

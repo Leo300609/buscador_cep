@@ -1,77 +1,46 @@
-// Seleção de elementos do DOM
-const btnBuscar = document.querySelector("#btn-buscar");
-const btnLimpar = document.querySelector("#btn-limpar");
-const inputCep = document.querySelector("#cep");
+const inputCep = document.getElementById("cep");
 
-// Campos do formulário (Inputs de saída)
-const campoRua = document.querySelector("#rua");
-const campoBairro = document.querySelector("#bairro");
-const campoCidade = document.querySelector("#cidade");
-const campoUf = document.querySelector("#uf");
+// Máscara Automática de CEP
+inputCep.addEventListener("input", (e) => {
+  let valor = e.target.value.replace(/\D/g, ""); // Remove letras
+  if (valor.length > 5) {
+    valor = valor.replace(/^(\d{5})(\d)/, "$1-$2");
+  }
+  e.target.value = valor;
+});
 
-/**
- * Função assíncrona para buscar dados de endereço via API
- */
-async function buscarEndereco() {
-  // Sanitização: remove caracteres não numéricos
-  const cep = inputCep.value.replace(/\D/g, "");
+// Função de Busca via API
+async function buscarCep() {
+  const cep = inputCep.value.replace("-", "");
 
-  // Validação básica de integridade
   if (cep.length !== 8) {
-    alert("Por favor, digite um CEP válido.");
+    alert("Digite um CEP válido com 8 números!");
     return;
   }
 
-  const url = `https://viacep.com.br/ws/${cep}/json/`;
-
-  // --- ESTADO DE LOADING ---
-  // Melhora a UX desativando o botão e dando feedback visual
-  btnBuscar.disabled = true;
-  btnBuscar.innerText = "Buscando...";
-  inputCep.classList.add("loading-input");
-
   try {
-    // Realiza a chamada para a API ViaCEP
-    const resposta = await fetch(url);
-    const dados = await resposta.json();
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await response.json();
 
-    if (dados.erro) {
+    if (data.erro) {
       alert("CEP não encontrado!");
       limparCampos();
     } else {
-      // Mapeia o resultado da API para os campos do formulário (Data Binding)
-      campoRua.value = dados.logradouro;
-      campoBairro.value = dados.bairro;
-      campoCidade.value = dados.localidade;
-      campoUf.value = dados.uf;
+      document.getElementById("logradouro").value = data.logradouro;
+      document.getElementById("bairro").value = data.bairro;
+      document.getElementById("localidade").value = data.localidade;
+      document.getElementById("uf").value = data.uf;
     }
   } catch (error) {
-    console.error("Erro na requisição:", error);
-    alert("Erro técnico ao consultar a API.");
-  } finally {
-    // --- FINALIZAÇÃO DO LOADING ---
-    // O bloco finally garante o reset do botão independente do sucesso ou erro
-    btnBuscar.disabled = false;
-    btnBuscar.innerText = "Buscar";
-    inputCep.classList.remove("loading-input");
+    console.error("Erro na busca:", error);
+    alert("Erro ao buscar o CEP. Tente novamente.");
   }
 }
 
-// Reseta a interface para o estado inicial
 function limparCampos() {
   inputCep.value = "";
-  campoRua.value = "";
-  campoBairro.value = "";
-  campoCidade.value = "";
-  campoUf.value = "";
-  inputCep.focus();
+  document.getElementById("logradouro").value = "";
+  document.getElementById("bairro").value = "";
+  document.getElementById("localidade").value = "";
+  document.getElementById("uf").value = "";
 }
-
-// Event Listeners
-btnBuscar.addEventListener("click", buscarEndereco);
-btnLimpar.addEventListener("click", limparCampos);
-
-// Melhora a usabilidade permitindo busca via teclado
-inputCep.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") buscarEndereco();
-});
