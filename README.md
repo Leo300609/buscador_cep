@@ -24,6 +24,11 @@ Este projeto é uma ferramenta prática desenvolvida para automatizar a busca de
 ## 🧠 Aprendizado para ADS
 Este projeto simula o comportamento de formulários de e-commerce reais, onde a eficiência e a automação de dados são fundamentais para reduzir erros de preenchimento e melhorar a conversão.
 
+## 🛠️ Tecnologias Utilizadas nesta semana:
+* **Ajustes de lógica em JavaScript**
+* **Manipulação de DOM para máscaras de input**
+* **Clean code e documentação**
+
 ## ⚙️ Como executar
 1. Clone este repositório:
    ```bash
