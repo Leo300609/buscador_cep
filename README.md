@@ -29,6 +29,11 @@ Este projeto simula o comportamento de formulários de e-commerce reais, onde a 
 * **Manipulação de DOM para máscaras de input**
 * **Clean code e documentação**
 
+## 📈 Status do Projeto:
+* **[x] Integração básica concluída.**
+* **[ ] Refatoração de funções (em progresso).**
+* **[ ] Melhorias na interface mobile.**
+
 ## ⚙️ Como executar
 1. Clone este repositório:
    ```bash
